@@ -2,10 +2,10 @@ CREATE TABLE IF NOT EXISTS authentication.user(
     id int NOT NULL,
     username VARCHAR(15) NOT NULL,
     password VARCHAR(30) NOT NULL,
-    confirmPassword VARCHAR(30) NOT NULL,
+    confirm_password VARCHAR(30) NOT NULL,
     email VARCHAR(100),
-    createdAt TIMESTAMP NOT NULL,
-    updatedAt TIMESTAMP,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
     PRIMARY KEY(id)
 );
 

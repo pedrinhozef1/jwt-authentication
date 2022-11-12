@@ -17,25 +17,29 @@ import java.time.LocalDateTime;
 @Entity(name = "user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_USER")
-    @SequenceGenerator(name = "SQ_USER", sequenceName = "SQ_USER", allocationSize = 1)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_user")
+    @SequenceGenerator(name = "sq_user", sequenceName = "sq_user", allocationSize = 1)
+    private Long id;
 
-    @NotEmpty(message = "Field username cannot be empty!")
-    @NotNull(message = "Field username cannot be null!")
+    @NotEmpty(message = "Username field cannot be empty!")
+    @NotNull(message = "Username field cannot be null!")
     private String username;
 
-    @NotEmpty(message = "Field password cannot be empty!")
-    @NotNull(message = "Field password cannot be null!")
+    @NotEmpty(message = "Password field cannot be empty!")
+    @NotNull(message = "Password field cannot be null!")
     private String password;
 
-    @NotEmpty(message = "Field confirmPassowrd cannot be empty!")
-    @NotNull(message = "Field confirmPassword cannot be null!")
+    @NotEmpty(message = "Confirm password field cannot be empty!")
+    @NotNull(message = "Confirm password field cannot be null!")
+    @Column(name = "confirm_password")
     private String confirmPassword;
 
     private String email;
 
-    @NotNull(message = "Username cannot be null!")
+    @NotNull(message = "Created at field cannot be null!")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }

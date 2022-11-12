@@ -3,21 +3,25 @@ server:
     context-path: /authentication
   port: 8080
 
+cryptography:
+  secret-key: CHAVESECRETA
+  salt: AAAA123!!
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/authentication
     username: admin
     password: admin
-    jpa:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
       hibernate:
-        ddl-auto: none
-      properties:
-        hibernate:
-          default_schema: authentication
-      show-sql: true
-      database: authentication
-      generate-sql: false
-      open-in-view: false
+        default_schema: authentication
+    show-sql: true
+    database: postgresql
+    generate-sql: false
+    open-in-view: false
   flyway:
     url: jdbc:postgresql://localhost:5432/authentication
     user: admin

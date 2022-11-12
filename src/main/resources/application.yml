@@ -1,0 +1,4 @@
+server:
+  servlet:
+    context-path: /authentication
+  port: 8080

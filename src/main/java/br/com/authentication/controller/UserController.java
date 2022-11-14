@@ -1,9 +1,9 @@
 package br.com.authentication.controller;
 
-import br.com.authentication.domain.model.User;
 import br.com.authentication.domain.representation.UserRepresentation;
 import br.com.authentication.domain.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +22,6 @@ public class UserController {
     public ResponseEntity<?> create(@RequestBody @Valid UserRepresentation.CreateOrUpdateUser user){
         this.service.create(user);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

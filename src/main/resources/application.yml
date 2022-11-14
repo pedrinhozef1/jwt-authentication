@@ -4,31 +4,37 @@ server:
   port: 8080
 
 cryptography:
-  secret-key: CHAVESECRETA
-  salt: AAAA123!!
+  secret-key: ${SECRETKEY}
+  salt: ${SALT}
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/authentication
-    username: admin
-    password: admin
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
-        default_schema: authentication
+        default_schema: ${DB_SCHEMA}
     show-sql: true
     database: postgresql
     generate-sql: false
     open-in-view: false
   flyway:
-    url: jdbc:postgresql://localhost:5432/authentication
-    user: admin
-    password: admin
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    user: ${DB_USER}
+    password: ${DB_PASSWORD}
     schemas:
-      - authentication
+      - ${DB_SCHEMA}
     baseline-on-migrate: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+security:
+  token:
+    issuer: ${ISSUER}
+    publicKey: ${PUBLICKEY}
+    privateKey: ${PRIVATEKEY}

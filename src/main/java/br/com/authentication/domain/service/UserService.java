@@ -1,9 +1,12 @@
 package br.com.authentication.domain.service;
 
+import br.com.authentication.domain.model.QUser;
 import br.com.authentication.domain.model.User;
 import br.com.authentication.domain.representation.UserRepresentation;
 import br.com.authentication.exception.BusinessException;
+import br.com.authentication.exception.UserNotFoundException;
 import br.com.authentication.repository.UserRepository;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -50,5 +53,12 @@ public class UserService {
         } else if (!password.equals(confirmPassword)){
             throw new BusinessException("Password field and confirm password field are different");
         }
+    }
+
+    public User findAccountByUsername(String username){
+        BooleanExpression filter = QUser.user.username.eq(username);
+
+        return this.userRepository.findOne(filter)
+                .orElseThrow(() -> new UserNotFoundException("User " + username + " not found "));
     }
 }

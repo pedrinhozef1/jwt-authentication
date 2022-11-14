@@ -1,5 +1,6 @@
 package br.com.authentication.exception;
 
+import br.com.authentication.domain.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,6 +45,28 @@ public class RestExceptionHandler {
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
                 .message(result.getFieldErrors().get(0).getDefaultMessage())
+                .build();
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorPayload handleUserNotFoundException(Exception exception) {
+        return ErrorPayload.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(exception.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    public ErrorPayload handleUnauthorizedException(Exception exception) {
+        return ErrorPayload.builder()
+                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                .message(exception.getMessage())
                 .build();
     }
 }

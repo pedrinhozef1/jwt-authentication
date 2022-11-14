@@ -1,5 +1,7 @@
 package br.com.authentication.domain.representation;
 
+import br.com.authentication.domain.model.User;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,5 +34,19 @@ public interface UserRepresentation {
 
         @Column(name = "updated_at")
         private LocalDateTime updatedAt;
+    }
+
+    @Data
+    @Builder
+    class UserToken{
+        private Long id;
+        private String userName;
+
+        public static UserToken from(User user){
+            return UserToken.builder()
+                    .id(user.getId())
+                    .userName(user.getUsername())
+                    .build();
+        }
     }
 }

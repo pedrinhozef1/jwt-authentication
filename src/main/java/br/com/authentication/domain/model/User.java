@@ -36,6 +36,11 @@ public class User {
 
     private String email;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    @NotNull(message = "Role field cannot be null!")
+    private Role role;
+
     @NotNull(message = "Created at field cannot be null!")
     @Column(name = "created_at")
     private LocalDateTime createdAt;

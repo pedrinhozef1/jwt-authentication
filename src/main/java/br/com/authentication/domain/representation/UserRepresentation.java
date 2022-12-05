@@ -3,9 +3,6 @@ package br.com.authentication.domain.representation;
 import br.com.authentication.domain.model.User;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -28,6 +25,10 @@ public interface UserRepresentation {
         private String confirmPassword;
 
         private String email;
+
+        @NotNull(message = "Role field cannot be null!")
+        @Column(name = "role_id")
+        private Long role;
 
         @Column(name = "created_at")
         private LocalDateTime createdAt;

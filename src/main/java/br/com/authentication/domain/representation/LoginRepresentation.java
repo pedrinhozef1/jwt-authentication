@@ -17,5 +17,6 @@ public interface LoginRepresentation {
         private UserRepresentation.UserToken user;
         private String token;
         private String tokenType;
+        private String role;
     }
 }

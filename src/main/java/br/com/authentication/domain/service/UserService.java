@@ -19,6 +19,7 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private RoleService roleService;
     private CryptographyService cryptographyService;
 
     public void create(UserRepresentation.CreateOrUpdateUser user) {
@@ -31,6 +32,7 @@ public class UserService {
                 .password(this.cryptographyService.encrypt(user.getPassword()))
                 .confirmPassword(this.cryptographyService.encrypt(user.getConfirmPassword()))
                 .createdAt(LocalDateTime.now())
+                .role(this.roleService.findRoleById(user.getRole()))
                 .build();
         this.userRepository.save(newUser);
     }

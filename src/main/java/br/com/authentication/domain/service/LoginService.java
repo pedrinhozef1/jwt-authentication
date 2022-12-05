@@ -1,6 +1,5 @@
 package br.com.authentication.domain.service;
 
-import antlr.Token;
 import br.com.authentication.config.Auth.TokenService;
 import br.com.authentication.domain.model.User;
 import br.com.authentication.domain.representation.LoginRepresentation;
@@ -10,13 +9,11 @@ import br.com.authentication.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class LoginService {
     private TokenService tokenService;
-    private UserRepository userRepository;
     private UserService userService;
     private CryptographyService cryptographyService;
 
@@ -32,13 +29,13 @@ public class LoginService {
 
     public LoginRepresentation.LoginResponse login(User user){
 
-        String token = this.tokenService.generateToken(UserRepresentation.UserToken.from(user));
+        String role = user.getRole().getDescription();
+        String token = this.tokenService.generateToken(UserRepresentation.UserToken.from(user), role);
 
         return LoginRepresentation.LoginResponse.builder()
                 .user(UserRepresentation.UserToken.from(user))
                 .tokenType("Bearer")
                 .token(token)
-//                .expirationDate(token)
                 .build();
     }
 }

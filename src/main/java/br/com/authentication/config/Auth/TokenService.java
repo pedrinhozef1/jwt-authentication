@@ -36,7 +36,7 @@ public class TokenService {
         }
     }
 
-    public String generateToken(UserRepresentation.UserToken user) {
+    public String generateToken(UserRepresentation.UserToken user, String role) {
 
         LocalDateTime now = LocalDateTime.now();
         return JWT.create()
@@ -49,6 +49,7 @@ public class TokenService {
                         .atZone(ZoneId.systemDefault())
                         .toInstant()))
                 .withClaim("user", this.mapper.convertValue(user, Map.class))
+                .withClaim("role", role)
                 .sign(algorithm);
     }
 

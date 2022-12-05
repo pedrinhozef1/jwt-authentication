@@ -38,3 +38,4 @@ security:
     issuer: ${ISSUER}
     publicKey: ${PUBLICKEY}
     privateKey: ${PRIVATEKEY}
+    maxAgeSeconds: ${MAXAGESECONDS}

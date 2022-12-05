@@ -1,6 +1,7 @@
 package br.com.authentication.exception;
 
 import br.com.authentication.domain.model.User;
+import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -66,6 +67,17 @@ public class RestExceptionHandler {
         return ErrorPayload.builder()
                 .statusCode(HttpStatus.UNAUTHORIZED.value())
                 .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                .message(exception.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorPayload handleNotFoundException(Exception exception){
+        return ErrorPayload.builder()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .error(HttpStatus.NOT_FOUND.getReasonPhrase())
                 .message(exception.getMessage())
                 .build();
     }

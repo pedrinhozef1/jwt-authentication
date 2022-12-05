@@ -29,13 +29,14 @@ public class LoginService {
 
     public LoginRepresentation.LoginResponse login(User user){
 
-        String role = user.getRole().getDescription();
+        String role = user.getRole().getName();
         String token = this.tokenService.generateToken(UserRepresentation.UserToken.from(user), role);
 
         return LoginRepresentation.LoginResponse.builder()
                 .user(UserRepresentation.UserToken.from(user))
                 .tokenType("Bearer")
                 .token(token)
+                .role(role)
                 .build();
     }
 }

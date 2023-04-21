@@ -1,7 +1,7 @@
-package br.com.authentication.controller;
+package br.com.authentication.api.controller;
 
-import br.com.authentication.domain.representation.LoginRepresentation;
-import br.com.authentication.domain.service.LoginService;
+import br.com.authentication.api.dto.AuthDto;
+import br.com.authentication.domain.application.AuthApplication;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @AllArgsConstructor
 public class AuthController {
-    private final LoginService loginService;
+    private final AuthApplication application;
 
     @GetMapping
-    public ResponseEntity<?> generateToken(@RequestBody LoginRepresentation.Login login){
+    public ResponseEntity<?> generateToken(@RequestBody AuthDto auth){
 
-        return ResponseEntity.ok(this.loginService.login(login));
+        return ResponseEntity.ok(this.application.login(auth));
     }
 }

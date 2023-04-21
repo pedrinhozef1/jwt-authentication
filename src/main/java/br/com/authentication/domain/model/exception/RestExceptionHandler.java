@@ -1,7 +1,5 @@
-package br.com.authentication.exception;
+package br.com.authentication.domain.model.exception;
 
-import br.com.authentication.domain.model.User;
-import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -11,28 +9,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
-    @ExceptionHandler(BusinessException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ErrorPayload handleBusinessException(Exception exception){
-        return ErrorPayload.builder()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                .message(exception.getMessage())
-                .build();
-    }
 
     @ExceptionHandler(CryptographyException.class)
-    @ResponseStatus(HttpStatus.METHOD_FAILURE)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorPayload handleCryptographyExceptionn(Exception exception){
         return ErrorPayload.builder()
-                .statusCode(HttpStatus.METHOD_FAILURE.value())
-                .error(HttpStatus.METHOD_FAILURE.getReasonPhrase())
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .message(exception.getMessage())
                 .build();
     }
@@ -49,16 +36,6 @@ public class RestExceptionHandler {
                 .build();
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ResponseBody
-    public ErrorPayload handleUserNotFoundException(Exception exception) {
-        return ErrorPayload.builder()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                .message(exception.getMessage())
-                .build();
-    }
 
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

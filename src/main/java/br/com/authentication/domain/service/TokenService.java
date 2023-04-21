@@ -1,6 +1,7 @@
-package br.com.authentication.config.Auth;
+package br.com.authentication.domain.service;
 
-import br.com.authentication.domain.representation.UserRepresentation;
+import br.com.authentication.domain.model.UserToken;
+import br.com.authentication.domain.model.Token;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,11 +22,11 @@ import java.util.Map;
 
 @Service
 public class TokenService {
-    private TokenProperties properties;
+    private Token properties;
     private Algorithm algorithm;
     private ObjectMapper mapper;
 
-    public TokenService(TokenProperties properties, ObjectMapper mapper){
+    public TokenService(Token properties, ObjectMapper mapper){
         this.properties = properties;
         this.mapper = mapper;
 
@@ -36,7 +37,7 @@ public class TokenService {
         }
     }
 
-    public String generateToken(UserRepresentation.UserToken user, String role) {
+    public String generateToken(UserToken user, String role) {
 
         LocalDateTime now = LocalDateTime.now();
         return JWT.create()

@@ -1,4 +1,4 @@
-package br.com.authentication.exception;
+package br.com.authentication.domain.model.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

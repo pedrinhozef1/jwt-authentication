@@ -4,6 +4,7 @@ import br.com.authentication.domain.model.UserToken;
 import br.com.authentication.domain.model.Token;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +27,9 @@ public class TokenService {
     private Algorithm algorithm;
     private ObjectMapper mapper;
 
-    public TokenService(Token properties, ObjectMapper mapper){
+    public TokenService(Token properties){
         this.properties = properties;
-        this.mapper = mapper;
+        this.mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
         try {
             this.algorithm = this.getAlgorithm(this.properties.getPublicKey(), this.properties.getPrivateKey());
@@ -49,7 +50,7 @@ public class TokenService {
                 .withExpiresAt(Date.from(now.plusSeconds(properties.getMaxAgeSeconds())
                         .atZone(ZoneId.systemDefault())
                         .toInstant()))
-                .withClaim("user", this.mapper.convertValue(user, Map.class))
+                .withClaim("user", mapper.convertValue(user, Map.class))
                 .withClaim("role", role)
                 .sign(algorithm);
     }

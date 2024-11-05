@@ -8,6 +8,18 @@ cryptography:
   salt: ${SALT}
 
 spring:
+  cloud:
+    aws:
+      endpoint: ${AWS_ENDPOINT}
+      credentials:
+        access-key: ${ACCESS_KEY}
+        secret-key: ${SECRET_KEY}
+      sns:
+        endpoint: ${AWS_SNS_ENDPOINT}
+        authentication-user-domain-event: ${AUTHENTICATION_USER_DOMAIN_EVENT}
+  output:
+    ansi:
+      enabled: ALWAYS
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
     username: ${DB_USER}
@@ -22,6 +34,12 @@ spring:
     database: postgresql
     generate-sql: false
     open-in-view: false
+  flyway:
+    enabled: false
+    baseline-on-migrate: true
+    schemas:
+      - ${DB_SCHEMA}
+    create-schemas: true
 
 security:
   token:

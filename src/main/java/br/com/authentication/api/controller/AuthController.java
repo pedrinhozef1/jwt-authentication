@@ -4,18 +4,16 @@ import br.com.authentication.api.dto.AuthDto;
 import br.com.authentication.domain.application.AuthApplication;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class AuthController {
     private final AuthApplication application;
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<?> generateToken(@RequestBody AuthDto auth){
 
         return ResponseEntity.ok(this.application.login(auth));

@@ -2,15 +2,9 @@ package br.com.authentication.domain.application;
 
 import br.com.authentication.api.dto.AuthDto;
 import br.com.authentication.config.AuthenticationDomainEventPublisher;
-import br.com.authentication.domain.model.AuthenticatedUserSuccessEvent;
-import br.com.authentication.domain.model.Login;
-import br.com.authentication.domain.model.UserToken;
-import br.com.authentication.domain.model.User;
-import br.com.authentication.domain.model.exception.BusinessException;
-import br.com.authentication.domain.service.CryptographyService;
+import br.com.authentication.domain.model.*;
 import br.com.authentication.domain.service.TokenService;
 import br.com.authentication.domain.service.UserService;
-import br.com.authentication.domain.model.exception.UnauthorizedException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,26 +17,24 @@ public class AuthApplication {
     private final AuthenticationDomainEventPublisher domainEventPublisher;
 
     public Login login(AuthDto login){
-        User user = this.userService.findAccountByUsername(login.getUsername());
+        User user = this.userService.findAccountByUsernameOrEmail(login.getUsername(), login.getEmail());
 
-        if (!user.getStatus().equals("0")) {
-            throw new BusinessException("O usuário que deseja se logar não está ativo.");
-        }
-
-        if (!this.cryptographyService.decrypt(user.getPassword()).equals(login.getPassword())) {
-            throw new UnauthorizedException("A senha informada está inválida");
-        }
+        user.userIsActive();
+        user.passwordIsValid(cryptographyService, login.getPassword());
 
         var role = user.getRole().getName();
-        var token = this.tokenService.generateToken(new UserToken(user.getId(), user.getUsername(), user.getName(), user.getEmail()), role);
+        var userToken = UserToken.builder()
+                .id(user.getId())
+                .userName(user.getUsername())
+                .name(user.getName())
+                .email(user.getEmail())
+                .companyDocument(user.getCompanyDocument())
+                .build();
+
+        var token = this.tokenService.generateToken(userToken, role);
 
         var authenticatedUser = Login.builder()
-                .user(UserToken.builder()
-                        .id(user.getId())
-                        .userName(user.getUsername())
-                        .name(user.getName())
-                        .email(user.getEmail())
-                        .build())
+                .user(userToken)
                 .type("Bearer")
                 .accessToken(token)
                 .role(role)

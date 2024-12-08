@@ -18,13 +18,17 @@ import java.util.Objects;
 public class UserService {
     private final UserRepository userRepository;
 
-    public User findAccountByUsername(String username){
-        if (Objects.isNull(username) || username.isEmpty()) {
-            throw new BusinessException("O usuário é obrigatório para se autenticar");
+    public User findAccountByUsernameOrEmail(String username, String email){
+        if (nullSafe(username) && nullSafe(email)) {
+            throw new BusinessException("Necessário informar o usuário ou email para se autenticar");
         }
-        BooleanExpression filter = QUser.user.username.eq(username);
+        BooleanExpression filter = QUser.user.username.eq(username).or(QUser.user.email.eq(email));
 
         return this.userRepository.findOne(filter)
                 .orElseThrow(() -> new NotFoundException("Usuário " + username + " não encontrado"));
+    }
+
+    private boolean nullSafe(String value) {
+        return Objects.isNull(value) || value.isEmpty();
     }
 }

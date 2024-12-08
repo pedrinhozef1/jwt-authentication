@@ -1,5 +1,6 @@
-package br.com.authentication.domain.service;
+package br.com.authentication.infrastructure;
 
+import br.com.authentication.domain.model.CryptographyService;
 import br.com.authentication.domain.model.exception.CryptographyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +18,7 @@ import java.util.Base64;
 
 @Slf4j
 @Service
-public class CryptographyService {
+public class CryptographyServiceImpl implements CryptographyService {
 
     @Value("cryptography.secret-key")
     private String SECRET_KEY;

@@ -14,4 +14,5 @@ public class UserToken {
     private String userName;
     private String name;
     private String email;
+    private String companyDocument;
 }
